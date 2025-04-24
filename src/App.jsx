@@ -31,7 +31,7 @@ function App() {
     async function getWord() {
       const randomWord = await fetchRandomWord();
       setWord(randomWord);
-      console.log("Secret word:", randomWord); // For debugging
+      // console.log("Secret word:", randomWord); // For debugging
     }
     getWord();
   }, []);
@@ -86,7 +86,7 @@ function App() {
   return (
     <>
       <div className="flex flex-col items-center">
-        <h1 className="text-3xl font-bold mb-6">Wordle Game</h1>
+        <h1 className="text-3xl font-bold mb-6">DDC's Wordle</h1>
         <div className="flex-col">
           {displayGuesses.map((guess, index) => (
             <Row
