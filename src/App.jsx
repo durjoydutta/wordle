@@ -40,7 +40,7 @@ function App() {
     function handleKeyDown(event) {
       if (gameOver) return;
 
-      const key = event.key.toUpperCase();
+      const key = event.key.toUpperCase(); // converting the letter to uppercase as the fetched word will be uppercase
 
       if (key === "ENTER" && currentGuess.length === 5) {
         submitGuess();
@@ -51,31 +51,29 @@ function App() {
       }
     }
 
+    const submitGuess = () => {
+      // Create a new guesses array with the current guess in the current row
+      const newGuesses = [...guesses];
+      newGuesses[currentRow] = currentGuess;
+      setGuesses(newGuesses);
+
+      // Check if the guess is correct
+      if (currentGuess === word) {
+        setGameWon(true);
+        setGameOver(true);
+        alert("Congratulations! You won!");
+      } else if (currentRow === GUESS_COUNT - 1) {
+        setGameOver(true);
+        alert(`Game over! The word was: ${word}`);
+      } else {
+        setCurrentRow(currentRow + 1);
+        setCurrentGuess("");
+      }
+    };
+
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentGuess, currentRow, gameOver]);
-
-  const submitGuess = () => {
-    if (currentGuess.length !== 5) return;
-
-    // Create a new guesses array with the current guess in the current row
-    const newGuesses = [...guesses];
-    newGuesses[currentRow] = currentGuess;
-    setGuesses(newGuesses);
-
-    // Check if the guess is correct
-    if (currentGuess === word) {
-      setGameWon(true);
-      setGameOver(true);
-      alert("Congratulations! You won!");
-    } else if (currentRow === GUESS_COUNT - 1) {
-      setGameOver(true);
-      alert(`Game over! The word was: ${word}`);
-    } else {
-      setCurrentRow(currentRow + 1);
-      setCurrentGuess("");
-    }
-  };
+  }, [currentGuess, currentRow, gameOver, guesses, word]);
 
   // Display the current guess in the active row
   const displayGuesses = guesses.map((guess, index) => {
